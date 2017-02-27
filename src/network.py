@@ -42,7 +42,7 @@ class Network(object):
         return a
 
     def SGD(self, training_data, epochs, mini_batch_size, eta,
-            test_data=None):
+            test_data=None, validation_data = None,):
         """Train the neural network using mini-batch stochastic
         gradient descent.  The ``training_data`` is a list of tuples
         ``(x, y)`` representing the training inputs and the desired
@@ -60,7 +60,10 @@ class Network(object):
                 for k in xrange(0, n, mini_batch_size)]
             for mini_batch in mini_batches:
                 self.update_mini_batch(mini_batch, eta)
-            if test_data:
+            if test_data and validation_data:
+                print "Epoch {0}: test: {1} / {2},validation: {3}/ {4}, training: {5}/{6}".format(
+                    j, self.evaluate(test_data), n_test,self.evaluate(validation_data), len(validation_data), self.evalTrain(training_data), n)
+            elif test_data:
                 print "Epoch {0}: {1} / {2}, {3}/ {4}".format(
                     j, self.evaluate(test_data), n_test, self.evalTrain(training_data), n)
             else:
