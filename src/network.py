@@ -61,8 +61,8 @@ class Network(object):
             for mini_batch in mini_batches:
                 self.update_mini_batch(mini_batch, eta)
             if test_data:
-                print "Epoch {0}: {1} / {2}".format(
-                    j, self.evaluate(test_data), n_test)
+                print "Epoch {0}: {1} / {2}, {3}/ {4}".format(
+                    j, self.evaluate(test_data), n_test, self.evalTrain(training_data), n)
             else:
                 print "Epoch {0} complete".format(j)
 
@@ -125,6 +125,12 @@ class Network(object):
         test_results = [(np.argmax(self.feedforward(x)), y)
                         for (x, y) in test_data]
         return sum(int(x == y) for (x, y) in test_results)
+        
+    def evalTrain(self, training_data):
+        test_results = [(np.argmax(self.feedforward(x)), y)
+                        for (x, y) in training_data]
+        finalres = map(lambda (x,y): (x, np.where(y==[np.float32(1)])[0][0]), test_results)
+        return sum(int(x == y) for (x, y) in finalres)
 
     def cost_derivative(self, output_activations, y):
         """Return the vector of partial derivatives \partial C_x /
