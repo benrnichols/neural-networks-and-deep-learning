@@ -130,6 +130,7 @@ class Network(object):
         return sum(int(x == y) for (x, y) in test_results)
         
     def evalTrain(self, training_data):
+        print training_data
         test_results = [(np.argmax(self.feedforward(x)), y)
                         for (x, y) in training_data]
         finalres = map(lambda (x,y): (x, np.where(y==[np.float32(1)])[0][0]), test_results)
